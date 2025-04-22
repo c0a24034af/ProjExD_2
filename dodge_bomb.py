@@ -31,9 +31,8 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
 
 def gameover(screen: pg.Surface) -> None:
     """
-     黒い画面を描画
-     文字列"Game Over"を表示
-     こうかとん2体を表示
+     ゲームオーバー時に,半透明の黒い画面上に「Game Over」と表示し,
+     泣いているこうかとん画像を貼り付ける関数
      """
     bl_img = pg.Surface((WIDTH*2,HEIGHT*2)) #黒い画面を描画
     bl_img.set_alpha(200)
@@ -51,7 +50,8 @@ def gameover(screen: pg.Surface) -> None:
     kk_rct1 = kk_img1.get_rect()
     kk_rct1.center = 380, 320
     screen.blit(kk_img1, kk_rct1)
-    kk_img2 = pg.image.load("fig/8.png")    
+
+    kk_img2 = pg.image.load("fig/8.png") # こうかとん(左)表示 
     kk_img2 = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9)
     kk_rct2 = kk_img1.get_rect()
     kk_rct2.center = 700, 320
@@ -63,18 +63,19 @@ def gameover(screen: pg.Surface) -> None:
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
-    bg_img = pg.image.load("fig/pg_bg.jpg")    
+    bg_img = pg.image.load("fig/pg_bg.jpg")
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
     clock = pg.time.Clock()
     tmr = 0
-    bb_img = pg.Surface((20,20))
+    bb_img = pg.Surface((20,20)) # 爆弾設定
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)
     bb_img.set_colorkey((0,0,0))
     bb_rct = bb_img.get_rect()
     bb_rct.center = random.randint(0,WIDTH),random.randint(0,HEIGHT)
-    vx,vy = +5,+5,
+
+    vx,vy = +5,+5, # 爆弾の移動速度設定
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -88,7 +89,7 @@ def main():
             
             
 
-        key_lst = pg.key.get_pressed() # こうかとん移動
+        key_lst = pg.key.get_pressed() # こうかとん移動設定
         sum_mv = [0, 0]
         for key, mv in DELTA.items():
                 if key_lst[key]:
